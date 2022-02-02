@@ -1,10 +1,10 @@
 class Department {
-  // private id: string;
+  // private readonly id: string;
   // public name: string;
   private employees: string[] = [];
 
   // short cut initialize class
-  constructor(private id: string, public name: string) {}
+  constructor(private readonly id: string, public name: string) {}
 
   // solution1. add parameter 'this' of Department type.
   describe(this: Department) {
@@ -17,6 +17,7 @@ class Department {
 
   printEmployeeInformation() {
     console.log(this.employees.length);
+    // this.id = "d2"; // error! Because id property is read-only property.
     console.log(this.employees);
   }
 }
