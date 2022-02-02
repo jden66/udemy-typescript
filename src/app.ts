@@ -1,14 +1,14 @@
 class Department {
-  public name: string;
+  // private id: string;
+  // public name: string;
   private employees: string[] = [];
 
-  constructor(name: string) {
-    this.name = name;
-  }
+  // short cut initialize class
+  constructor(private id: string, public name: string) {}
 
   // solution1. add parameter 'this' of Department type.
   describe(this: Department) {
-    console.log("Department: " + this.name);
+    console.log(`Department: (${this.id}): ${this.name}`);
   }
 
   addEmployee(employee: string) {
@@ -21,7 +21,7 @@ class Department {
   }
 }
 
-const accounting = new Department("accounting");
+const accounting = new Department("d1", "accounting");
 accounting.addEmployee("Max");
 accounting.addEmployee("Manu");
 
