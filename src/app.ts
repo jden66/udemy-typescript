@@ -22,18 +22,45 @@ class Department {
   }
 }
 
-const accounting = new Department("d1", "accounting");
-accounting.addEmployee("Max");
-accounting.addEmployee("Manu");
+class ITDepartment extends Department {
+  constructor(id: string, private admins: string[]) {
+    super(id, "IT");
+    this.admins = admins;
+  }
+}
+
+class AccountingDepartment extends Department {
+  constructor(id: string, private reports: string[]) {
+    super(id, "Account");
+  }
+
+  addReport(text: string) {
+    this.reports.push(text);
+  }
+
+  printReport() {
+    console.log(this.reports);
+  }
+}
+
+const it = new ITDepartment("d1", ["Max"]);
+it.addEmployee("Max");
+it.addEmployee("Manu");
 
 // avoid this case. because.. your co-worker don't know this case(add employee method).
 // employees property is 'private'
 // accounting.employees[2] = "Anna";
 
 // name property is 'public'
-accounting.name = "NEW NAME";
-accounting.describe();
-accounting.printEmployeeInformation();
+it.name = "NEW NAME";
+it.describe();
+it.printEmployeeInformation();
+console.log(it);
+
+// new Object Account
+const Account = new AccountingDepartment("d2", []);
+Account.addReport("Something went wrong....");
+Account.printReport();
 
 // solution2. add property name of accountingCopy
 // const accountingCopy = { name: "dummy", describe: accounting.describe };
