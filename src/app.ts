@@ -1,7 +1,7 @@
 class Department {
   // private readonly id: string;
   // public name: string;
-  private employees: string[] = [];
+  protected employees: string[] = [];
 
   // short cut initialize class
   constructor(private readonly id: string, public name: string) {}
@@ -34,6 +34,13 @@ class AccountingDepartment extends Department {
     super(id, "Account");
   }
 
+  addEmployee(name: string): void {
+    if (name === "Max") {
+      return;
+    }
+    this.employees.push(name);
+  }
+
   addReport(text: string) {
     this.reports.push(text);
   }
@@ -61,6 +68,10 @@ console.log(it);
 const Account = new AccountingDepartment("d2", []);
 Account.addReport("Something went wrong....");
 Account.printReport();
+
+Account.addEmployee("Max");
+Account.addEmployee("Manu");
+Account.printEmployeeInformation();
 
 // solution2. add property name of accountingCopy
 // const accountingCopy = { name: "dummy", describe: accounting.describe };
