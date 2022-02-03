@@ -1,4 +1,5 @@
-class Department {
+// change abstract class - this class can't create instance. because this class is abstract class
+abstract class Department {
   // static variable
   static fiscalYear = 2022;
   // private readonly id: string;
@@ -11,7 +12,7 @@ class Department {
   }
 
   // short cut initialize class
-  constructor(private readonly id: string, public name: string) {
+  constructor(protected readonly id: string, public name: string) {
     // static 변수, 메서드는 this로 접근이 불가. this는 인스턴스에 종속되어 사용되므로, this에는 fiscalYear가 존재하지 않음
     // console.log(this.fiscalYear)
     // static 변수를 사용하기 위해서는 클래스 이름으로 접근해야한다.
@@ -19,9 +20,9 @@ class Department {
   }
 
   // solution1. add parameter 'this' of Department type.
-  describe(this: Department) {
-    console.log(`Department: (${this.id}): ${this.name}`);
-  }
+  // change abstract method
+  // return type as possible anything
+  abstract describe(this: Department): void;
 
   addEmployee(employee: string) {
     this.employees.push(employee);
@@ -39,10 +40,19 @@ class ITDepartment extends Department {
     super(id, "IT");
     this.admins = admins;
   }
+
+  describe() {
+    console.log("IT Department ID: ", this.id);
+  }
 }
 
 class AccountingDepartment extends Department {
   private lastReport: string;
+
+  constructor(id: string, private reports: string[]) {
+    super(id, "Account");
+    this.lastReport = reports[0];
+  }
 
   get mostLastReport() {
     if (this.lastReport) {
@@ -58,9 +68,9 @@ class AccountingDepartment extends Department {
     this.addReport(value);
   }
 
-  constructor(id: string, private reports: string[]) {
-    super(id, "Account");
-    this.lastReport = reports[0];
+  // this method is inheritance method. and this method is required materialize.
+  describe(): void {
+    console.log("Accounting Department ID: ", this.id);
   }
 
   addEmployee(name: string): void {
@@ -109,6 +119,7 @@ Account.mostLastReport = "Something went wrong....";
 console.log(Account.mostLastReport);
 Account.printReport();
 
+Account.describe();
 Account.addEmployee("Max");
 Account.addEmployee("Manu");
 Account.printEmployeeInformation();
