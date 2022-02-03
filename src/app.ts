@@ -30,8 +30,25 @@ class ITDepartment extends Department {
 }
 
 class AccountingDepartment extends Department {
+  private lastReport: string;
+
+  get mostLastReport() {
+    if (this.lastReport) {
+      return this.lastReport;
+    }
+    throw new Error("No Report found.");
+  }
+
+  set mostLastReport(value) {
+    if (!value) {
+      throw new Error("Please pass new report.");
+    }
+    this.addReport(value);
+  }
+
   constructor(id: string, private reports: string[]) {
     super(id, "Account");
+    this.lastReport = reports[0];
   }
 
   addEmployee(name: string): void {
@@ -43,6 +60,7 @@ class AccountingDepartment extends Department {
 
   addReport(text: string) {
     this.reports.push(text);
+    this.lastReport = text;
   }
 
   printReport() {
@@ -66,7 +84,15 @@ console.log(it);
 
 // new Object Account
 const Account = new AccountingDepartment("d2", []);
-Account.addReport("Something went wrong....");
+// Account.addReport("Something went wrong....");
+
+// set 구문을 이용한 메서드를 호출할 경우(세터), 함수형태가 아닌, 등호를 이용해서 값을 넣어야 한다.
+Account.mostLastReport = "Something went wrong....";
+// 공백은 에러되도록 세터에서 처리함(예외 발생)
+// Account.mostLastReport = "";
+
+// get 구문을 이용한 메서드를 호출할 경우(게터) 함수구문처럼 호출하지 않는다.
+console.log(Account.mostLastReport);
 Account.printReport();
 
 Account.addEmployee("Max");
