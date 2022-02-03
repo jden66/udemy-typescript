@@ -1,10 +1,22 @@
 class Department {
+  // static variable
+  static fiscalYear = 2022;
   // private readonly id: string;
   // public name: string;
   protected employees: string[] = [];
 
+  // static method
+  static createEmployee(name: string) {
+    return { name };
+  }
+
   // short cut initialize class
-  constructor(private readonly id: string, public name: string) {}
+  constructor(private readonly id: string, public name: string) {
+    // static 변수, 메서드는 this로 접근이 불가. this는 인스턴스에 종속되어 사용되므로, this에는 fiscalYear가 존재하지 않음
+    // console.log(this.fiscalYear)
+    // static 변수를 사용하기 위해서는 클래스 이름으로 접근해야한다.
+    console.log("static variable 접근 --", Department.fiscalYear);
+  }
 
   // solution1. add parameter 'this' of Department type.
   describe(this: Department) {
@@ -67,6 +79,8 @@ class AccountingDepartment extends Department {
     console.log(this.reports);
   }
 }
+// use static method -> 인스턴스 생성을 하지 않아도 클래스에서 바로 접근 가능
+console.log(Department.createEmployee("Max"), Department.fiscalYear);
 
 const it = new ITDepartment("d1", ["Max"]);
 it.addEmployee("Max");
