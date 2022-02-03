@@ -48,10 +48,21 @@ class ITDepartment extends Department {
 
 class AccountingDepartment extends Department {
   private lastReport: string;
+  private static instance: AccountingDepartment;
 
-  constructor(id: string, private reports: string[]) {
+  // this constructor is no longer create instance
+  private constructor(id: string, private reports: string[]) {
     super(id, "Account");
     this.lastReport = reports[0];
+  }
+
+  // 생성된 인스턴스가 있는지 확인하고 없으면 새 인스턴스를 반환해준다. 있으면 기존의 인스턴스를 반환해준다.(오직 한개만 생성)
+  static getInstance() {
+    if (AccountingDepartment.instance) {
+      return this.instance;
+    }
+    this.instance = new AccountingDepartment("d2", []);
+    return this.instance;
   }
 
   get mostLastReport() {
@@ -107,22 +118,27 @@ it.printEmployeeInformation();
 console.log(it);
 
 // new Object Account
-const Account = new AccountingDepartment("d2", []);
+// const Account = new AccountingDepartment("d2", []);
+// AccountingDepartment class is Singleton class.
+const accounting = AccountingDepartment.getInstance();
+const accounting2 = AccountingDepartment.getInstance();
 // Account.addReport("Something went wrong....");
 
+// accounting and accounting2 is same instance.
+console.log(accounting, accounting2)
 // set 구문을 이용한 메서드를 호출할 경우(세터), 함수형태가 아닌, 등호를 이용해서 값을 넣어야 한다.
-Account.mostLastReport = "Something went wrong....";
+accounting.mostLastReport = "Something went wrong....";
 // 공백은 에러되도록 세터에서 처리함(예외 발생)
-// Account.mostLastReport = "";
+// accounting.mostLastReport = "";
 
 // get 구문을 이용한 메서드를 호출할 경우(게터) 함수구문처럼 호출하지 않는다.
-console.log(Account.mostLastReport);
-Account.printReport();
+console.log(accounting.mostLastReport);
+accounting.printReport();
 
-Account.describe();
-Account.addEmployee("Max");
-Account.addEmployee("Manu");
-Account.printEmployeeInformation();
+accounting.describe();
+accounting.addEmployee("Max");
+accounting.addEmployee("Manu");
+accounting.printEmployeeInformation();
 
 // solution2. add property name of accountingCopy
 // const accountingCopy = { name: "dummy", describe: accounting.describe };
