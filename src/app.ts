@@ -1,23 +1,48 @@
-interface Greetable {
-  name: string;
+/**
+ * intersectiono type - use interface keyword
+ */
 
-  greet(phrase: string): void;
+interface Admin {
+  name: string;
+  privileges: string[];
+}
+interface Employee {
+  name: string;
+  startDate: Date;
 }
 
-class Person implements Greetable {
-  name: string;
-  age = 30;
-  constructor(n: string) {
-    this.name = n;
-  }
-  greet(phrase: string): void {
-    console.log(phrase + " " + this.name);
-  }
-}
+/**
+ * intersectiono type - use type keyword
+ */
+// type Admin = {
+//   name: string;
+//   privileges: string[];
+// };
 
-// type is interface type.
-let user1: Greetable;
+// type Employee = {
+//   name: string;
+//   startDate: Date;
+// };
 
-// user1 variable has to Person interface defined property.
-user1 = new Person("Max");
-user1.greet("hello...!!");
+// this type is intersection type. (use interface)
+type AEmployee = Admin & Employee;
+// interface BEmployee = Admin & Employee; // wrong
+// this interface is intersection type. (use interface)
+interface CEmployee extends Admin, Employee {}
+
+const e1: AEmployee = {
+  name: "Max",
+  privileges: ["create-server"],
+  startDate: new Date(),
+};
+
+const e3: CEmployee = {
+  name: "Max",
+  privileges: ["create-server"],
+  startDate: new Date(),
+};
+
+type Combinable = string | number;
+type Numeric = number | boolean;
+
+type Universal = Combinable & Numeric; // & operator. common type is number.
