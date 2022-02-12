@@ -17,13 +17,24 @@
 //   return Object.assign(objA, objB);
 // }
 // case2. use generic
-function merge<T, U>(objA: T, objB: U) {
+// function merge<T, U>(objA: T, objB: U) {
+//   return Object.assign(objA, objB);
+// }
+
+// case3. ㅕuse restriction generic type is restriction
+// T & U is resitricted 'object' type.
+function merge<T extends object, U extends object>(objA: T, objB: U) {
   return Object.assign(objA, objB);
 }
 
 // console.log(merge({ name: "abc" }, { age: 30 }));
+// const mergeObj = merge({ name: "abc", hobbies: ["sports"] }, { age: 30 });
+
+// case3. second argument is object -> number >> ERROR
+// const mergeObj = merge({ name: "abc", hobbies: ["sports"] }, 30);
 const mergeObj = merge({ name: "abc", hobbies: ["sports"] }, { age: 30 });
 
 // case1. don't access age property
 // case2. access age propergy
+// case3. occur error access age property. because merge func return obj is don't know age property..
 console.log(mergeObj.age);
