@@ -32,11 +32,15 @@ promise.then((data) => {
 // const mergeObj = merge({ name: "mark" }, { age: 30 });
 // console.log(mergeObj.name)
 
-function merge<T, U>(objA: T, objB: U) {
+// 만약 전달받고자 하는 매개변수의 타입에 제약조건을 걸고 싶으면 아래 첫번째 줄 처럼 하면 된다.
+function merge<T extends object, U extends object>(objA: T, objB: U) {
+  // function merge<T, U>(objA: T, objB: U) {
   return Object.assign(objA, objB);
 }
 // 제네릭으로 타입을 지정해줌으로서 반환타입이 T랑 U의 인터섹션 타입이라는 것을 알 수 있다.
 // 타입스크립트가 인식할 수 있도록 해주는 방식이라고 보면 될듯
 // T에 객체의 형태를 지정해놓으면.. 그 형태를 따라야만 하기 때문에, T로 명명해 유연하게 사용할 수 있게 한 것.
 const mergeObj = merge({ name: "mark" }, { age: 30 });
+// const mergeObj = merge({ name: "mark" }, 30);
+// 컴파일 에러 발생 -> 두번째 매개변수는 제네릭 타입이지만 제약조건으로 object만 와야 하기 때문
 console.log(mergeObj.age);
