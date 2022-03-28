@@ -17,3 +17,26 @@ promise.then((data) => {
   // 현재는 promise
   data.split("");
 });
+
+/**
+ * step 2. create generic func
+ * @param objA
+ * @param objB
+ * @returns
+ */
+// function merge(objA: object, objB: object) {
+//   return Object.assign(objA, objB);
+// }
+// merge함수의 결과로 하나의 객체를 묶을 수 있지만,
+// 문제는 타입스크립트에서 merge의 리턴으로 받은 객체에 정보를 알 수가 없다는 것.
+// const mergeObj = merge({ name: "mark" }, { age: 30 });
+// console.log(mergeObj.name)
+
+function merge<T, U>(objA: T, objB: U) {
+  return Object.assign(objA, objB);
+}
+// 제네릭으로 타입을 지정해줌으로서 반환타입이 T랑 U의 인터섹션 타입이라는 것을 알 수 있다.
+// 타입스크립트가 인식할 수 있도록 해주는 방식이라고 보면 될듯
+// T에 객체의 형태를 지정해놓으면.. 그 형태를 따라야만 하기 때문에, T로 명명해 유연하게 사용할 수 있게 한 것.
+const mergeObj = merge({ name: "mark" }, { age: 30 });
+console.log(mergeObj.age);
